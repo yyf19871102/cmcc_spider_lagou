@@ -1,6 +1,6 @@
 /**
- * @auth 杨羽飞
- * @time 2018-10-16 08:43:37
+ * @auth {{author}}
+ * @date {{dateTime}}
  * @desc 日期辅助类
  */
 const moment    = require('moment');

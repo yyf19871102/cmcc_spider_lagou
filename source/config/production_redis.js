@@ -1,7 +1,7 @@
 /**
- * @auth yangyufei
- * @date 2018-12-08 10:24:41
- * @desc
+ * @auth {{author}}
+ * @date {{dateTime}}
+ * @desc redis集群配置
  */
 module.exports = [
 	{

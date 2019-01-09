@@ -1,23 +1,23 @@
 /**
- * @auth yangyufei
- * @date 2018-12-08 10:25:21
- * @desc
+ * @auth {{author}}
+ * @date {{dateTime}}
+ * @desc 爬虫相关配置
  */
 module.exports = {
-	out     : {
-		corpDir     : '/home/wltx/out/lagou/company/',
-		jobDir      : '/home/wltx/out/lagou/zhiwei/',
-		namePrefix  : 'lagou',
-	},
+    outDir  : '/home/wltx/out/', // 输出文件根路径
+
+    threadNum: 4, // 开启线程数量
+
+    keywordOfSeed: 'name', // 打印日志时，显示当前执行的seed的关键字段
 
 	fetch   : {
 		timeout     : 20000,
-		retry       : 5,
+		retry       : 3,
 	},
 
 	task    : {
 		concurrency : 100,
-		retry       : 5,
+		retry       : 2,
 	},
 
 	run     : {

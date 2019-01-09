@@ -1,7 +1,7 @@
 /**
- * @auth yangyufei
- * @date 2018-11-19 17:50:39
- * @desc log4js
+ * @auth {{author}}
+ * @date {{dateTime}}
+ * @desc log4js配置
  */
 const log4js	= require('log4js');
 const path      = require('path');

@@ -1,11 +1,11 @@
 /**
- * @auth 杨羽飞
- * @time 2018-10-17 19:55:54
- * @desc
+ * @auth {{author}}
+ * @time {{dateTime}}
+ * @desc 连接redis
  */
 const Redis         = require('ioredis');
 
-const config    = require('../config').REDIS;
+const config        = require('../config').REDIS;
 
 if (!config) {
 	console.error('找不到redis配置文件！');

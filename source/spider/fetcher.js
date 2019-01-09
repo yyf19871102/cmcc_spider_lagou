@@ -5,8 +5,9 @@
  */
 const cheerio   = require('cheerio');
 const moment    = require('moment');
+const uuid      = require('uuid/v4');
 
-const utils     = require('../utils');
+const utils     = require('../core/utils');
 const SysConf   = require('../config');
 
 const parseChannel = ($, selector) => {
@@ -34,10 +35,13 @@ exports.getChannels = async () => {
 		uri     : 'https://www.lagou.com/gongsi/',
 		method  : 'GET',
 		transform: res => cheerio.load(res),
-		timeout : SysConf.SPIDER.fetch.timeout,
+        headers : {
+		    Cookie: `user_trace_token=${moment().format('YYYYMMDDHHmmss')}-${uuid()}`
+        },
+		useProxy: true,
 	};
 
-	let $ = await utils.requestUrl(reqConf, 5, $ => $('#filterCollapse').length > 0);
+	let $ = await utils.requestUrl(reqConf, 1, $ => $('#filterCollapse').length > 0);
 
 	rongziList = parseChannel($, '#filterCollapse > .financeStage a');
 	industryList = parseChannel($, '#filterCollapse > .industry > .more-hy a');
@@ -56,10 +60,13 @@ exports.getCities = async () => {
 		uri     : 'http://www.lagou.com/gongsi/allCity.html?option=2-7-24',
 		method  : 'GET',
 		transform: res => cheerio.load(res),
-		timeout : SysConf.SPIDER.fetch.timeout,
+        headers : {
+            Cookie: `user_trace_token=${moment().format('YYYYMMDDHHmmss')}-${uuid()}`
+        },
+        useProxy: true
 	};
 
-	let $ = await utils.requestUrl(reqConf, 5, $ => $('.word_list').length > 0);
+	let $ = await utils.requestUrl(reqConf, 2, $ => $('.word_list').length > 0);
 
 	$('.word_list tr').each(function () {
 		$(this).find('.city_list li').each(function () {
@@ -105,13 +112,14 @@ exports.getCompanyList = async (page, cityCode, rongziCode = 0, industryCode = 0
 		headers : {
 			'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.108 Safari/537.36',
 			Referer: `https://www.lagou.com/gongsi/${cityCode}-${rongziCode}-${industryCode}-0?sortField=1`,
+            Cookie: `user_trace_token=${moment().format('YYYYMMDDHHmmss')}-${uuid()}`
 		},
 		json    : true,
 		timeout : SysConf.SPIDER.fetch.timeout,
 		useProxy: true
 	};
 
-	let data = await utils.requestUrl(reqConf, 5, res => res.hasOwnProperty('result'));
+	let data = await utils.requestUrl(reqConf, 2, res => res.hasOwnProperty('result'));
 
 	return data;
 };
@@ -131,10 +139,11 @@ exports.getCompanyInfo = async corpId => {
 		headers : {
 			'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.108 Safari/537.36',
 			Referer: `http://www.lagou.com/gongsi/`,
+            Cookie: `user_trace_token=${moment().format('YYYYMMDDHHmmss')}-${uuid()}`
 		},
 	};
 
-	let $ = await utils.requestUrl(reqConf, 5, $ => $('#companyInfoData').length > 0);
+	let $ = await utils.requestUrl(reqConf, 2, $ => $('#companyInfoData').length > 0);
 
 	return JSON.parse($('#companyInfoData').html());
 };
@@ -162,10 +171,11 @@ exports.getJobList = async (corpId, page, isSchool = false) => {
 		headers : {
 			'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.108 Safari/537.36',
 			Referer: `http://www.lagou.com/gongsi/`,
+            Cookie: `user_trace_token=${moment().format('YYYYMMDDHHmmss')}-${uuid()}`
 		},
 	};
 
-	let data = await utils.requestUrl(reqConf, 5, data => data.hasOwnProperty('state') && data.state === 1);
+	let data = await utils.requestUrl(reqConf, 2, data => data.hasOwnProperty('state') && data.state === 1);
 
 	return data;
 };
@@ -184,12 +194,13 @@ exports.getJobInfo = async jobId => {
 		transform: res => cheerio.load(res),
 		headers : {
 			'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.108 Safari/537.36',
+            Cookie: `user_trace_token=${moment().format('YYYYMMDDHHmmss')}-${uuid()}`
 		},
 	};
 
 	let job = {};
 
-	let $ = await utils.requestUrl(reqConf, 5, $ => $('.job-name .company').length > 0);
+	let $ = await utils.requestUrl(reqConf, 2, $ => $('.job-name .company').length > 0);
 
 	job.subTitle = $('.job-name .company').text();
 	job.title = $('.job-name .name').text();

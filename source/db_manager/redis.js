@@ -1,7 +1,7 @@
 /**
- * @auth yangyufei
- * @date 2018-05-21 20:57:23
- * @desc 连接redis
+ * @auth {{author}}
+ * @date {{dateTime}}
+ * @desc redis的三种服务：redis数据库、发布者和订阅者
  */
 const redisConnector= require('./redis_connector');
 

@@ -1,6 +1,6 @@
 /**
- * @auth yangyufei
- * @date 2018-06-18 18:45:15
+ * @auth {{author}}
+ * @date {{dateTime}}
  * @desc 工具集合
  */
 const fs            = require('fs');
@@ -10,7 +10,7 @@ const Promise       = require('bluebird');
 const rp            = require('request-promise');
 
 const logger        = require('./logger');
-const config        = require('../config/index');
+const config        = require('../config');
 const {ERROR_OBJ}   = config;
 
 /**
@@ -108,11 +108,12 @@ exports.spread = (obj, required, unrequired) => {
  * @type {exports.Progress}
  */
 exports.Progress = class {
-	constructor(sumCount, successCount = 0, failedCount = 0, interval = 100) {
+	constructor(sumCount, successCount = 0, failedCount = 0, interval = 100, prefix = '\t') {
 		this.sumCount = sumCount;
 		this.successCount = successCount;
 		this.failedCount = failedCount;
 		this.interval = interval;
+		this.prefix = prefix;
 
 		this.counter = 0;
 	}
@@ -125,7 +126,8 @@ exports.Progress = class {
 			let completeRatio = (completeCount / this.sumCount * 100).toFixed(2);
 			let failedRatio = completeCount ? `${(this.failedCount / completeCount * 100).toFixed(2)}%` : '--';
 
-			logger.info(`   |进度：${completeCount}/${this.sumCount}|完成比例：${completeRatio}%|失败比例：${failedRatio}`);
+
+			logger.info(`${this.prefix}|进度：${completeCount}/${this.sumCount}|完成比例：${completeRatio}%|失败比例：${failedRatio}`);
 		}
 	}
 
