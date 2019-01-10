@@ -43,21 +43,40 @@ exports.makePhaseList = async (context, sid) => {
         phaseGetJobInfo
     ];
 
-    let rongziList, industryList;
-    while(true) {
-        // 频道信息一定要获取到，不然7个大城市数据无法获取
-        try {
-            let channel = await fetcher.getChannels();
+    let rongziList = [
+        {name: '未融资', code: 1},
+        {name: '天使轮', code: 2},
+        {name: 'A轮', code: 3},
+        {name: 'B轮', code: 4},
+        {name: 'C轮', code: 5},
+        {name: 'D轮及以上', code: 6},
+        {name: '上市公司', code: 7},
+        {name: '不需要融资', code: 8},
+    ];
 
-            rongziList = channel.rongziList;
-            industryList = channel.industryList;
-
-            break;
-        } catch (err) {
-            logger.warn('miacro task init阶段无法获取频道信息，5s后重试...');
-            await Promise.delay(5000);
-        }
-    }
+    let industryList = [
+        {name: '移动互联网', code: 24},
+        {name: '电子商务', code: 25},
+        {name: '金融', code: 33},
+        {name: '企业服务', code: 27},
+        {name: '教育', code: 29},
+        {name: '文化娱乐', code: 45},
+        {name: '游戏', code: 31},
+        {name: 'O2O', code: 28},
+        {name: '硬件', code: 47},
+        {name: '健康医疗', code: 34},
+        {name: '生活服务', code: 35},
+        {name: '广告营销', code: 43},
+        {name: '旅游', code: 32},
+        {name: '数据服务', code: 41},
+        {name: '社交网络', code: 26},
+        {name: '分类信息', code: 48},
+        {name: '信息安全', code: 38},
+        {name: '招聘', code: 49},
+        {name: '区块链', code: 15793},
+        {name: '人工智能', code: 15794},
+        {name: '其它', code: 10594},
+    ];
 
     phaseMakeBaseCorpParams.setHandler(async city => {
         let paramsList = [];
