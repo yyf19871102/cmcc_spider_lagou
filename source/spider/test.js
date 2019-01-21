@@ -16,3 +16,5 @@ const fetcher = require('./fetcher');
 // fetcher.getJobList('34863', 1).then(data => console.log(JSON.stringify(data, null, 4)));
 
 // fetcher.getJobInfo(5159139).then(console.log);
+
+// fetcher.getCookie().then(console.log);

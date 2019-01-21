@@ -86,6 +86,28 @@ exports.getCities = async () => {
 };
 
 /**
+ * 获取cookie信息（申请cookie的IP地址必须和请求IP地址一致）
+ * @returns {Promise<string>}
+ */
+exports.getCookie = async () => {
+    let reqConf = {
+        uri     : 'https://m.lagou.com/search.html',
+        method  : 'GET',
+		userProxy: true,
+        resolveWithFullResponse: true,
+    };
+
+    let res = await utils.requestUrl(reqConf);
+
+    let cookie = '';
+    res.headers['set-cookie'].forEach(cookieObj => {
+        (cookie += cookieObj.split(';')[0] + ';');
+    });
+
+    return {cookie, proxy: reqConf.proxy};
+};
+
+/**
  * 获取公司列表
  * @param page 页码
  * @param cityCode 城市代码
@@ -100,6 +122,8 @@ exports.getCompanyList = async (page, cityCode, rongziCode = 0, industryCode = 0
 		return [];
 	}
 
+	let {cookie, proxy} = await exports.getCookie();
+
 	let reqConf = {
 		uri     : `https://www.lagou.com/gongsi/${cityCode}-${rongziCode}-${industryCode}-0.json`,
 		method  : 'POST',
@@ -112,11 +136,11 @@ exports.getCompanyList = async (page, cityCode, rongziCode = 0, industryCode = 0
 		headers : {
 			'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.108 Safari/537.36',
 			Referer: `https://www.lagou.com/gongsi/${cityCode}-${rongziCode}-${industryCode}-0?sortField=1`,
-            Cookie: `user_trace_token=${moment().format('YYYYMMDDHHmmss')}-${uuid()}`
+            Cookie: cookie,
 		},
 		json    : true,
 		timeout : SysConf.SPIDER.fetch.timeout,
-		useProxy: true
+		proxy
 	};
 
 	let data = await utils.requestUrl(reqConf, 2, res => res.hasOwnProperty('result'));
