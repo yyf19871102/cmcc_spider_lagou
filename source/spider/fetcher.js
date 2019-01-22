@@ -97,7 +97,7 @@ exports.getCookie = async () => {
         resolveWithFullResponse: true,
     };
 
-    let res = await utils.requestUrl(reqConf);
+    let res = await utils.requestUrl(reqConf, 5, res => res.headers && res.headers['set-cookie'].length > 0);
 
     let cookie = '';
     res.headers['set-cookie'].forEach(cookieObj => {
@@ -179,11 +179,13 @@ exports.getCompanyInfo = async corpId => {
  * @returns {Promise.<*>}
  */
 exports.getJobList = async (corpId, page, isSchool = false) => {
+    let {cookie, proxy} = await exports.getCookie();
+
 	let reqConf = {
 		uri     : `https://www.lagou.com/gongsi/searchPosition.json`,
 		method  : 'POST',
 		json    : true,
-		useProxy: true,
+		proxy,
 		timeout : SysConf.SPIDER.fetch.timeout,
 		form: {
 			companyId   : corpId,
@@ -195,7 +197,7 @@ exports.getJobList = async (corpId, page, isSchool = false) => {
 		headers : {
 			'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.108 Safari/537.36',
 			Referer: `http://www.lagou.com/gongsi/`,
-            Cookie: `user_trace_token=${moment().format('YYYYMMDDHHmmss')}-${uuid()}`
+            Cookie: cookie
 		},
 	};
 
