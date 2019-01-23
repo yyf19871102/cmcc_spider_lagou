@@ -13,7 +13,7 @@ const fetcher = require('./fetcher');
 
 // fetcher.getCompanyInfo(34863).then(console.log);
 
-fetcher.getJobList('34863', 1).then(data => console.log(JSON.stringify(data, null, 4)));
+// fetcher.getJobList('34863', 1).then(data => console.log(JSON.stringify(data, null, 4)));
 
 // fetcher.getJobInfo(5159139).then(console.log);
 

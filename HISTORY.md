@@ -13,3 +13,7 @@
 0.3.2 / 2019-01-22
 ======================
 *   fixbug:反爬策略影响职位获取接口；获取cookie方法添加requestUrl验证；
+
+0.3.3 / 2019-01-23
+======================
+*   fixbug:spider/fetcher.js的getCookie的useCookie写成了userCookie导致未使用代理IP，一直使用本地IP获取不到数据；

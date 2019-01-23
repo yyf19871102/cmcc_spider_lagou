@@ -6,7 +6,7 @@
 module.exports = {
 	outDir  : 'e://tmp/', // 输出文件根路径
 
-    threadNum: 4, // 开启线程数量
+    threadNum: 1, // 开启线程数量
 
     keywordOfSeed: 'name', // 打印日志时，显示当前执行的seed的关键字段
 

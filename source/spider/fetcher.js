@@ -93,11 +93,11 @@ exports.getCookie = async () => {
     let reqConf = {
         uri     : 'https://m.lagou.com/search.html',
         method  : 'GET',
-		userProxy: true,
+		useProxy: true,
         resolveWithFullResponse: true,
     };
 
-    let res = await utils.requestUrl(reqConf, 5, res => res.headers && res.headers['set-cookie'].length > 0);
+    let res = await utils.requestUrl(reqConf, 5, res => res.headers && res.headers['set-cookie'] && res.headers['set-cookie'].length > 0);
 
     let cookie = '';
     res.headers['set-cookie'].forEach(cookieObj => {
